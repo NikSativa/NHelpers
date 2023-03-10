@@ -29,10 +29,13 @@ let package = Package(
         .library(name: "NUIKitExtraTestHelpers", targets: ["NUIKitExtraTestHelpers"]),
 
         .library(name: "NXibView", targets: ["NXibView"]),
-        .library(name: "NXibViewTestHelpers", targets: ["NXibViewTestHelpers"])
+        .library(name: "NXibViewTestHelpers", targets: ["NXibViewTestHelpers"]),
+
+        .library(name: "DateHelper", targets: ["DateHelper"]),
+        .library(name: "DateTestHelper", targets: ["DateTestHelper"])
     ],
     dependencies: [
-        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "1.2.7")),
+        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "1.3.2")),
         .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "6.1.0")),
         .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "11.2.1"))
     ],
@@ -206,6 +209,31 @@ let package = Package(
                         "NXibView",
                         "NXibViewTestHelpers"
                     ],
-                    path: "XibView/Tests")
+                    path: "XibView/Tests"),
+
+        // MARK: DateHelper
+        .target(name: "DateHelper",
+                dependencies: [
+                ],
+                path: "DateHelper",
+                exclude: [
+                    "Tests",
+                    "TestHelpers"
+                ]
+               ),
+        .target(name: "DateTestHelper",
+                dependencies: [
+                    "DateHelper",
+                    "NSpry"
+                ],
+                path: "DateHelper/TestHelpers"
+               ),
+        .testTarget(name: "DateHelperTests",
+                    dependencies: [
+                        "DateHelper",
+                        "DateTestHelper"
+                    ],
+                    path: "DateHelper/Tests"
+                   )
     ]
 )
