@@ -18,7 +18,7 @@ public final class ImageProviderTester {
                 subject = BaseImageProvider(bundle: bundle).toAny()
             }
 
-            func image<Name: ImageRepresentable>(named name: Name) -> UIImage? {
+            func image(named name: some ImageRepresentable) -> UIImage? {
                 return UIImage(named: name.rawValue, in: bundle, compatibleWith: nil)
             }
 

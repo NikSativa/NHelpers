@@ -105,7 +105,7 @@ public final class ModalPresenter {
     }
 
     private func prepare(_ viewController: UIViewController, on source: ModalPresenterSource?) {
-        guard let source = source else {
+        guard let source else {
             return
         }
 

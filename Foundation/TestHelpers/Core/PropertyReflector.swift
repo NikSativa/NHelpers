@@ -4,7 +4,7 @@ public final class PropertyReflector {
     private var properties = [String: Any]()
 
     public init(_ subject: Any?) {
-        guard let subject = subject else {
+        guard let subject else {
             return
         }
 

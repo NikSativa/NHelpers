@@ -1,13 +1,13 @@
 import UIKit
 
 public extension UICollectionView {
-    func register<T: UICollectionViewCell>(cellClass: T.Type) {
+    func register(cellClass: (some UICollectionViewCell).Type) {
         let className = id(of: cellClass)
         register(cellClass, forCellWithReuseIdentifier: className)
     }
 
-    func register<T: UICollectionViewCell>(cellType: T.Type,
-                                           bundle: Bundle? = nil) {
+    func register(cellType: (some UICollectionViewCell).Type,
+                  bundle: Bundle? = nil) {
         let className = id(of: cellType)
         let nib = UINib(nibName: className, bundle: bundle)
         register(nib, forCellWithReuseIdentifier: className)
@@ -20,9 +20,9 @@ public extension UICollectionView {
                                    for: indexPath) as! T
     }
 
-    func register<T: UICollectionReusableView>(_ type: T.Type,
-                                               forSupplementaryViewOfKind kind: String,
-                                               bundle: Bundle? = nil) {
+    func register(_ type: (some UICollectionReusableView).Type,
+                  forSupplementaryViewOfKind kind: String,
+                  bundle: Bundle? = nil) {
         let className = id(of: type)
         let nib = UINib(nibName: className, bundle: bundle)
         register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: id(of: type))
@@ -37,7 +37,7 @@ public extension UICollectionView {
                                                 for: indexPath) as! T
     }
 
-    private func id<T: UIView>(of type: T.Type) -> String {
+    private func id(of type: (some UIView).Type) -> String {
         return String(describing: type)
     }
 }

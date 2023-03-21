@@ -53,7 +53,7 @@ public final class LabelLinksHandler {
 private extension UILabel {
     /// - returns: index of character (in the attributedText) at point
     func indexOfAttributedTextCharacterAtPoint(_ point: CGPoint) -> Int? {
-        guard let attributedText = attributedText else {
+        guard let attributedText else {
             return nil
         }
 

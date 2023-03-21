@@ -1,9 +1,5 @@
 import UIKit
 
-#if canImport(NInject)
-import NInject
-#endif
-
 private extension Foundation.Bundle {
     struct Info {
         let bundle: Bundle
@@ -63,6 +59,7 @@ open class XibView: UIView {
 
     private var internalView: UIView!
 
+    open func initialSetup() {}
     open func commonSetup() {}
 
     private static func loadView(withFilesOwner filesOwner: XibView) -> XibView {
@@ -93,7 +90,7 @@ open class XibView: UIView {
     }
 
     private func initNib() {
-        resolveDependencies()
+        initialSetup()
 
         internalView = type(of: self).loadView(withFilesOwner: self)
         internalView.backgroundColor = .clear
@@ -115,7 +112,7 @@ open class XibView: UIView {
             return internalView?.preservesSuperviewLayoutMargins ?? super.preservesSuperviewLayoutMargins
         }
         set {
-            if let internalView = internalView {
+            if let internalView {
                 internalView.preservesSuperviewLayoutMargins = newValue
             }
             super.preservesSuperviewLayoutMargins = newValue

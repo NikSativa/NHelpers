@@ -37,7 +37,7 @@ final class FakeKeychain: Keychain, Spryable {
         return spryify(arguments: data, key)
     }
 
-    func write<T>(_ value: T, for key: String) throws where T: Encodable {
+    func write(_ value: some Encodable, for key: String) throws {
         return spryify(arguments: value, key)
     }
 

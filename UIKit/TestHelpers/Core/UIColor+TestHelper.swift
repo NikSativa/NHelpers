@@ -29,7 +29,7 @@ public func isEqual(_ lhs: UIColor?, _ rhs: UIColor?) -> Bool {
         return true
     }
 
-    guard let lhs = lhs, let rhs = rhs else {
+    guard let lhs, let rhs else {
         return false
     }
 

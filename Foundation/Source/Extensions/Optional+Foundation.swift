@@ -5,7 +5,7 @@ public extension Optional {
         return self == nil
     }
 
-    func unwrap<T: Error>(_ error: T) throws -> Wrapped {
+    func unwrap(_ error: some Error) throws -> Wrapped {
         switch self {
         case .none:
             throw error

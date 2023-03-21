@@ -23,7 +23,7 @@ public func equal<K: Hashable, T>(_ expectedValue: [K: T]?, where closure: @esca
             return PredicateResult(bool: false, message: .expectedActualValueTo("not be nil"))
         }
 
-        guard let expectedValue = expectedValue else {
+        guard let expectedValue else {
             return PredicateResult(bool: false, message: .expectedTo("not be nil"))
         }
 

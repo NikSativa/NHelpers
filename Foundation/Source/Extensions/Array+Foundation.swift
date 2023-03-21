@@ -28,7 +28,7 @@ public extension Array {
     }
 
     @discardableResult
-    mutating func sort<Value: Comparable>(by keyPath: KeyPath<Self.Element, Value>) -> Self {
+    mutating func sort(by keyPath: KeyPath<Self.Element, some Comparable>) -> Self {
         self = sorted(by: keyPath)
         return self
     }
@@ -123,7 +123,7 @@ public func += <T>(list: inout [T], obj: T) {
 }
 
 public func += <T>(list: inout [T], obj: T?) {
-    if let obj = obj {
+    if let obj {
         list.append(obj)
     }
 }
@@ -135,7 +135,7 @@ public func -= <T: Equatable>(list: inout [T], obj: T) {
 }
 
 public func -= <T: Equatable>(list: inout [T], obj: T?) {
-    if let obj = obj {
+    if let obj {
         while let index = list.firstIndex(of: obj) {
             list.remove(at: index)
         }

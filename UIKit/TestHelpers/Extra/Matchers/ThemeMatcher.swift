@@ -7,7 +7,7 @@ import Nimble
 public func beAppliedTo<T: StylePropertyTestable>(_ expectedValue: T.ViewType?) -> Predicate<ViewStyle<T>> {
     return Predicate.define("be applied to") { actualExpression, _ in
         let newFailureMessage = ExpectationMessage.expectedActualValueTo("equal <\(String(describing: expectedValue))>")
-        guard let expectedValue = expectedValue else {
+        guard let expectedValue else {
             return PredicateResult(bool: false, message: .expectedCustomValueTo("have a \(T.ViewType.self)", actual: "nil"))
         }
 

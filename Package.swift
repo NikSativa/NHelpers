@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 // swiftformat:disable all
 import PackageDescription
 

@@ -95,4 +95,4 @@ public extension Publisher {
     }
 }
 
-private func makeVoid<T>(_: T) -> Void {}
+private func makeVoid(_: some Any) {}

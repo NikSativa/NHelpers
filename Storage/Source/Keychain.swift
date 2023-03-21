@@ -61,7 +61,7 @@ extension Impl {
                 query[kSecUseDataProtectionKeychain] = kCFBooleanTrue
             }
 
-            if let accessGroup = accessGroup {
+            if let accessGroup {
                 query[kSecAttrAccessGroup] = accessGroup as AnyObject?
             }
 
@@ -147,7 +147,7 @@ extension Impl.Keychain: Keychain {
         return nil
     }
 
-    func write<T: Encodable>(_ value: T, for key: String) throws {
+    func write(_ value: some Encodable, for key: String) throws {
         let data = try configuration.encoder.encode(value)
         try write(data: data, for: key)
     }

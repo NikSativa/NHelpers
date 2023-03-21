@@ -25,7 +25,7 @@ public extension UIImage {
     }
 
     func cropped(to rect: CGRect) -> UIImage {
-        guard let cgImage = cgImage, let imageRef = cgImage.cropping(to: rect) else {
+        guard let cgImage, let imageRef = cgImage.cropping(to: rect) else {
             return UIImage()
         }
 

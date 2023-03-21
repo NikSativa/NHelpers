@@ -6,7 +6,7 @@ public extension UIGestureRecognizer {
             return false
         }
 
-        guard let view = view else {
+        guard let view else {
             return false
         }
 

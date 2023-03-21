@@ -74,7 +74,7 @@ extension KeyboardHandler: KeyboardHandling {
 
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let configuration = configuration else {
+        guard let configuration else {
             return
         }
 

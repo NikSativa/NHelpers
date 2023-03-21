@@ -41,7 +41,7 @@ public func isEqual(_ lhs: UIImage?, _ rhs: UIImage?) -> Bool {
         return true
     }
 
-    guard let lhs = lhs, let rhs = rhs else {
+    guard let lhs, let rhs else {
         return false
     }
 

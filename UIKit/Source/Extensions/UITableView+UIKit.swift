@@ -9,13 +9,13 @@ public extension UITableView {
 
     // MARK: - Cell
 
-    func register<T: UITableViewCell>(cellClass type: T.Type) {
+    func register(cellClass type: (some UITableViewCell).Type) {
         let className = id(type: type)
         register(type, forCellReuseIdentifier: className)
     }
 
-    func register<T: UITableViewCell>(cellType: T.Type,
-                                      bundle: Bundle? = nil) {
+    func register(cellType: (some UITableViewCell).Type,
+                  bundle: Bundle? = nil) {
         let info = nib(type: cellType, bundle: bundle)
         register(info.nib, forCellReuseIdentifier: info.id)
     }
@@ -28,13 +28,13 @@ public extension UITableView {
 
     // MARK: - Header/Footer
 
-    func register<T: UITableViewHeaderFooterView>(headerFooterViewType type: T.Type,
-                                                  bundle: Bundle? = nil) {
+    func register(headerFooterViewType type: (some UITableViewHeaderFooterView).Type,
+                  bundle: Bundle? = nil) {
         let info = nib(type: type, bundle: bundle)
         register(info.nib, forHeaderFooterViewReuseIdentifier: info.id)
     }
 
-    func register<T: UITableViewHeaderFooterView>(headerFooterViewClass type: T.Type) {
+    func register(headerFooterViewClass type: (some UITableViewHeaderFooterView).Type) {
         let className = id(type: type)
         register(type, forHeaderFooterViewReuseIdentifier: className)
     }
@@ -46,14 +46,14 @@ public extension UITableView {
 
     // MARK: -
 
-    private func nib<T: UIView>(type: T.Type,
-                                bundle: Bundle? = nil) -> (nib: UINib, id: String) {
+    private func nib(type: (some UIView).Type,
+                     bundle: Bundle? = nil) -> (nib: UINib, id: String) {
         let className = id(type: type)
         let nib = UINib(nibName: className, bundle: bundle)
         return (nib, className)
     }
 
-    private func id<T: UIView>(type: T.Type) -> String {
+    private func id(type: (some UIView).Type) -> String {
         return String(describing: type)
     }
 }

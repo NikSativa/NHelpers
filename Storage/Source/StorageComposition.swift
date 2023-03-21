@@ -38,7 +38,7 @@ final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Stor
         self.eventier = .init(wrappedValue: found)
         self.observers = storages.map { actaul in
             return actaul.eventier.dropFirst().sink { [unowned self, unowned actaul] newValue in
-                if self.isSyncing {
+                if isSyncing {
                     return
                 }
 
@@ -60,7 +60,7 @@ final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Stor
             .enumerated()
             .first(where: { $0.1 != empty })
 
-        if let found = found {
+        if let found {
             // recursively set the same value to the previous storages
             // in common case this is improvement of speed via saving stored value in the inMemory storage
             for i in (0..<found.offset).reversed() {

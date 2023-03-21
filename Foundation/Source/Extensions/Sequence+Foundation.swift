@@ -8,7 +8,7 @@ public extension Sequence {
         })
     }
 
-    func sorted<Value: Comparable>(by keyPath: KeyPath<Self.Element, Value>) -> [Self.Element] {
+    func sorted(by keyPath: KeyPath<Self.Element, some Comparable>) -> [Self.Element] {
         return sorted(by: keyPath, using: <)
     }
 
