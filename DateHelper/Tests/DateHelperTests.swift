@@ -3,7 +3,7 @@ import Foundation
 import NSpry
 import XCTest
 
-@testable import DateHelper
+import DateHelper
 
 final class DateTimeConverterTests: DateTestCase {
     func testDHShortcut() {
@@ -68,10 +68,10 @@ final class DateTimeConverterTests: DateTestCase {
             switch format {
             case .th.default:
                 actual = "16 June 2023"
-                expected = .testMake(year: 2023, month: 6, day: 16)
+                expected = .spry.testMake(year: 2023, month: 6, day: 16)
             case .th.dayOfTheWeek:
                 actual = "Friday, 16 June 2023"
-                expected = .testMake(year: 2023, month: 6, day: 16)
+                expected = .spry.testMake(year: 2023, month: 6, day: 16)
             case .th.timeFullWith(separator: " * "):
                 actual = "June 16 2023 * 03:49 PM"
                 expected = .mock()
@@ -83,31 +83,31 @@ final class DateTimeConverterTests: DateTestCase {
                 expected = .mock()
             case .th.MMMddEEE:
                 actual = "Jun 16, Fri"
-                expected = .testMake(year: 2000, month: 6, day: 16)
+                expected = .spry.testMake(year: 2000, month: 6, day: 16)
             case .th.monthShort:
                 actual = "Jun"
-                expected = .testMake(year: 2000, month: 6, day: 1)
+                expected = .spry.testMake(year: 2000, month: 6, day: 1)
             case .th.dayOfMonth1:
                 actual = "16"
-                expected = .testMake(year: 2000, month: 1, day: 16)
+                expected = .spry.testMake(year: 2000, month: 1, day: 16)
             case .th.dayOfMonth2:
                 actual = "16"
-                expected = .testMake(year: 2000, month: 1, day: 16)
+                expected = .spry.testMake(year: 2000, month: 1, day: 16)
             case .th.time24h:
                 actual = "16"
-                expected = .testMake(year: 2000, month: 1, day: 1, hour: 16)
+                expected = .spry.testMake(year: 2000, month: 1, day: 1, hour: 16)
             case .th.time24hAndMinutes:
                 actual = "16:30"
-                expected = .testMake(year: 2000, month: 1, day: 1, hour: 16, minute: 30)
+                expected = .spry.testMake(year: 2000, month: 1, day: 1, hour: 16, minute: 30)
             case .th.time12h:
                 actual = "6 AM"
-                expected = .testMake(year: 2000, month: 1, day: 1, hour: 6)
+                expected = .spry.testMake(year: 2000, month: 1, day: 1, hour: 6)
             case .th.time12hAndMinutes:
                 actual = "6:30 AM"
-                expected = .testMake(year: 2000, month: 1, day: 1, hour: 6, minute: 30)
+                expected = .spry.testMake(year: 2000, month: 1, day: 1, hour: 6, minute: 30)
             case .th.numericDateWith(separator: "-"):
                 actual = "2023-06-16"
-                expected = .testMake(year: 2023, month: 6, day: 16)
+                expected = .spry.testMake(year: 2023, month: 6, day: 16)
             default:
                 XCTFail(humanName(for: format) + " - " + format.asString)
                 return
@@ -194,14 +194,14 @@ final class DateTimeConverterTests: DateTestCase {
     }
 
     func testNow() {
-        XCTAssertHaveNotRecordedCalls(dateProvider)
+        XCTAssertHaveNoRecordedCalls(dateProvider)
         dateProvider.stub(.now).andReturn(Date.mock())
         XCTAssertEqual(subject.now, Date.mock())
         XCTAssertHaveReceived(dateProvider, .now, countSpecifier: .exactly(1))
     }
 
     func testTimeZone() {
-        XCTAssertHaveNotRecordedCalls(dateProvider)
+        XCTAssertHaveNoRecordedCalls(dateProvider)
         dateProvider.stub(.timeZone).andReturn(TimeZone.testMake(addHours: 2))
         XCTAssertEqual(subject.timeZone, .testMake(addHours: 2))
         XCTAssertHaveReceived(dateProvider, .timeZone, countSpecifier: .exactly(1))

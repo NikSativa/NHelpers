@@ -1,8 +1,7 @@
+import DateHelper
 import DateTestHelper
 import Foundation
 import XCTest
-
-@testable import DateHelper
 
 final class DateFormatTests: DateTestCase {
     override func setUp() {
@@ -16,13 +15,13 @@ final class DateFormatTests: DateTestCase {
     }
 
     func testStringLiteral() {
-        let date = Date.testMake(year: 2019,
-                                 month: 12,
-                                 day: 30,
-                                 hour: 15,
-                                 minute: 49,
-                                 second: 11,
-                                 nanosecond: 22)
+        let date = Date.spry.testMake(year: 2019,
+                                      month: 12,
+                                      day: 30,
+                                      hour: 15,
+                                      minute: 49,
+                                      second: 11,
+                                      nanosecond: 22)
         XCTAssertEqual(subject.string(withFormat: "yyyy-MMM-dd hh:mm a", from: date, isUTC: true), "2019-Dec-30 03:49 PM")
     }
 

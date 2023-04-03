@@ -1,7 +1,7 @@
 import Foundation
 import NSpry
 
-@testable import NStorage
+import NStorage
 
 extension KeychainConfiguration: SpryEquatable {
     static func testMake(service: String = "",

@@ -1,8 +1,6 @@
 import Foundation
 
-public typealias OptionalDecodable = Decodable & Equatable
-
-public struct OptionalDecoder<A: OptionalDecodable>: OptionalDecodable {
+public struct OptionalDecoder<A: Decodable> {
     public let value: A?
 
     public init(_ value: A?) {
@@ -10,8 +8,14 @@ public struct OptionalDecoder<A: OptionalDecodable>: OptionalDecodable {
     }
 }
 
-public extension OptionalDecoder {
-    init(from decoder: Decoder) throws {
+// MARK: - Decodable
+
+extension OptionalDecoder: Decodable {
+    public init(from decoder: Decoder) throws {
         self.value = try? decoder.singleValueContainer().decode(A.self)
     }
 }
+
+// MARK: - Equatable
+
+extension OptionalDecoder: Equatable where A: Equatable {}

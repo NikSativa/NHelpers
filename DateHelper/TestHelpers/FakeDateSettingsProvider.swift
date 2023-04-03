@@ -1,7 +1,6 @@
+import DateHelper
 import Foundation
 import NSpry
-
-@testable import DateHelper
 
 public final class FakeDateSettingsProvider: DateSettingsProviding, Spryable {
     public enum ClassFunction: String, StringRepresentable {

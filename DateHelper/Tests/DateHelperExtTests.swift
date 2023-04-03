@@ -2,7 +2,7 @@ import DateTestHelper
 import Foundation
 import XCTest
 
-@testable import DateHelper
+import DateHelper
 
 final class DateExtTests: DateTestCase {
     func testUTCStringWithFormat() {

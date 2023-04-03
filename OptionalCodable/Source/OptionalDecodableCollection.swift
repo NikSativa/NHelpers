@@ -1,6 +1,6 @@
 import Foundation
 
-public struct OptionalDecodableCollection<T: OptionalDecodable> {
+public struct OptionalDecodableCollection<T: Decodable> {
     public let values: [T]
 
     public init(_ values: [T]) {
@@ -8,11 +8,13 @@ public struct OptionalDecodableCollection<T: OptionalDecodable> {
     }
 }
 
-// MARK: - OptionalDecodable
+// MARK: - Decodable
 
-extension OptionalDecodableCollection: OptionalDecodable {
+extension OptionalDecodableCollection: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try? decoder.singleValueContainer().decode([OptionalDecoder<T>].self)
         self.values = (container ?? []).compactMap(\.value)
     }
 }
+
+extension OptionalDecodableCollection: Equatable where T: Equatable {}

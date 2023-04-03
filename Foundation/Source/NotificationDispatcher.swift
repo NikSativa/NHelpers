@@ -63,7 +63,7 @@ extension NotificationDispatcher: NotificationDispatching {
 public final class NotificationToken {
     private let token: NSObjectProtocol
 
-    init(token: NSObjectProtocol) {
+    internal init(token: NSObjectProtocol) {
         self.token = token
     }
 

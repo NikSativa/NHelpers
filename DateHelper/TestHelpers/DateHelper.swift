@@ -1,6 +1,5 @@
+import DateHelper
 import Foundation
-
-@testable import DateHelper
 
 public extension DateHelper {
     convenience init(fakeDateProvider dateProvider: FakeDateSettingsProvider) {

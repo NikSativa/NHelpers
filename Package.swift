@@ -11,33 +11,26 @@ let package = Package(
     products: [
         .library(name: "NFoundation", targets: ["NFoundation"]),
         .library(name: "NFoundationTestHelpers", targets: ["NFoundationTestHelpers"]),
-        .library(name: "NFoundationExtraTestHelpers", targets: ["NFoundationExtraTestHelpers"]),
 
-        .library(name: "NObservable", targets: ["NObservable"]),
+            .library(name: "NObservable", targets: ["NObservable"]),
 
-        .library(name: "NOptionalCodable", targets: ["NOptionalCodable"]),
+            .library(name: "NOptionalCodable", targets: ["NOptionalCodable"]),
         .library(name: "NOptionalCodableTestHelpers", targets: ["NOptionalCodableTestHelpers"]),
 
-        .library(name: "NStorage", targets: ["NStorage"]),
+            .library(name: "NStorage", targets: ["NStorage"]),
         .library(name: "NStorageTestHelpers", targets: ["NStorageTestHelpers"]),
 
-        .library(name: "NTextOperators", targets: ["NTextOperators"]),
+            .library(name: "NTextOperators", targets: ["NTextOperators"]),
         //        .library(name: "NTextOperatorsTestHelpers", targets: ["NTextOperatorsTestHelpers"]),
 
-        .library(name: "NUIKit", targets: ["NUIKit"]),
+            .library(name: "NUIKit", targets: ["NUIKit"]),
         .library(name: "NUIKitTestHelpers", targets: ["NUIKitTestHelpers"]),
-        .library(name: "NUIKitExtraTestHelpers", targets: ["NUIKitExtraTestHelpers"]),
 
-        .library(name: "NXibView", targets: ["NXibView"]),
-        .library(name: "NXibViewTestHelpers", targets: ["NXibViewTestHelpers"]),
-
-        .library(name: "DateHelper", targets: ["DateHelper"]),
+            .library(name: "DateHelper", targets: ["DateHelper"]),
         .library(name: "DateTestHelper", targets: ["DateTestHelper"])
     ],
     dependencies: [
-        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "1.3.2")),
-        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "6.1.0")),
-        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "11.2.1"))
+        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.0.1"))
     ],
     targets: [
         // MARK: NFoundation
@@ -50,26 +43,12 @@ let package = Package(
                     "NFoundation",
                     "NSpry"
                 ],
-                path: "Foundation/TestHelpers/Core"),
-        .target(name: "NFoundationExtraTestHelpers",
-                dependencies: [
-                    "NFoundation",
-                    "NFoundationTestHelpers",
-                    "NSpry",
-                    .product(name: "NSpry_Nimble", package: "NSpry"),
-                    "Nimble",
-                    "Quick"
-                ],
-                path: "Foundation/TestHelpers/Extra"),
+                path: "Foundation/TestHelpers"),
         .testTarget(name: "NFoundationTests",
                     dependencies: [
-                        "Nimble",
-                        "Quick",
                         "NSpry",
-                        .product(name: "NSpry_Nimble", package: "NSpry"),
                         "NFoundation",
-                        "NFoundationTestHelpers",
-                        "NFoundationExtraTestHelpers"
+                        "NFoundationTestHelpers"
                     ],
                     path: "Foundation/Tests"),
 
@@ -97,10 +76,7 @@ let package = Package(
                 path: "OptionalCodable/TestHelpers"),
         .testTarget(name: "NOptionalCodableTests",
                     dependencies: [
-                        "Nimble",
-                        "Quick",
                         "NSpry",
-                        .product(name: "NSpry_Nimble", package: "NSpry"),
                         "NOptionalCodable",
                         "NOptionalCodableTestHelpers"
                     ],
@@ -122,10 +98,7 @@ let package = Package(
                 path: "Storage/TestHelpers"),
         .testTarget(name: "NStorageTests",
                     dependencies: [
-                        "Nimble",
-                        "Quick",
                         "NSpry",
-                        .product(name: "NSpry_Nimble", package: "NSpry"),
                         "NStorage",
                         "NStorageTestHelpers"
                     ],
@@ -143,10 +116,7 @@ let package = Package(
         //                path: "TextOperators/TestHelpers"),
             .testTarget(name: "NTextOperatorsTests",
                         dependencies: [
-                            "Nimble",
-                            "Quick",
                             "NSpry",
-                            .product(name: "NSpry_Nimble", package: "NSpry"),
                             "NTextOperators",
                             //                        "NTextOperatorsTestHelpers"
                             "NFoundationTestHelpers"
@@ -164,52 +134,14 @@ let package = Package(
                     "NUIKit",
                     "NSpry"
                 ],
-                path: "UIKit/TestHelpers/Core"),
-        .target(name: "NUIKitExtraTestHelpers",
-                dependencies: [
-                    "NUIKit",
-                    "NUIKitTestHelpers",
-                    "NSpry",
-                    .product(name: "NSpry_Nimble", package: "NSpry"),
-                    "Nimble",
-                    "Quick",
-                    "NFoundationExtraTestHelpers"
-                ],
-                path: "UIKit/TestHelpers/Extra"),
+                path: "UIKit/TestHelpers"),
         .testTarget(name: "NUIKitTests",
                     dependencies: [
-                        "Nimble",
-                        "Quick",
                         "NSpry",
-                        .product(name: "NSpry_Nimble", package: "NSpry"),
                         "NUIKit",
-                        "NUIKitTestHelpers",
-                        "NUIKitExtraTestHelpers",
-                        "NFoundationExtraTestHelpers"
+                        "NUIKitTestHelpers"
                     ],
                     path: "UIKit/Tests"),
-
-        // MARK: NXibView
-        .target(name: "NXibView",
-                dependencies: [
-                ],
-                path: "XibView/Source"),
-        .target(name: "NXibViewTestHelpers",
-                dependencies: [
-                    "NXibView",
-                    "NSpry"
-                ],
-                path: "XibView/TestHelpers"),
-        .testTarget(name: "NXibViewTests",
-                    dependencies: [
-                        "Nimble",
-                        "Quick",
-                        "NSpry",
-                        .product(name: "NSpry_Nimble", package: "NSpry"),
-                        "NXibView",
-                        "NXibViewTestHelpers"
-                    ],
-                    path: "XibView/Tests"),
 
         // MARK: DateHelper
         .target(name: "DateHelper",

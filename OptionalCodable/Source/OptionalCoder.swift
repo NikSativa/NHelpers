@@ -1,8 +1,6 @@
 import Foundation
 
-public typealias OptionalCodable = Codable & Equatable
-
-public struct OptionalCoder<A: OptionalCodable> {
+public struct OptionalCoder<A: Codable> {
     public let value: A?
 
     public init(_ value: A?) {
@@ -10,9 +8,9 @@ public struct OptionalCoder<A: OptionalCodable> {
     }
 }
 
-// MARK: - OptionalCodable
+// MARK: - Codable
 
-extension OptionalCoder: OptionalCodable {
+extension OptionalCoder: Codable {
     public init(from decoder: Decoder) throws {
         self.value = try? decoder.singleValueContainer().decode(A.self)
     }

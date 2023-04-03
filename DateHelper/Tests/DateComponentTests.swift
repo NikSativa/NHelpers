@@ -1,8 +1,7 @@
+import DateHelper
 import DateTestHelper
 import Foundation
 import XCTest
-
-@testable import DateHelper
 
 final class DateComponentTests: DateTestCase {
     override func setUp() {
@@ -16,13 +15,13 @@ final class DateComponentTests: DateTestCase {
     }
 
     func testStringLiteral() {
-        let date = Date.testMake(year: 2019,
-                                 month: 12,
-                                 day: 30,
-                                 hour: 15,
-                                 minute: 49,
-                                 second: 11,
-                                 nanosecond: 22)
+        let date = Date.spry.testMake(year: 2019,
+                                      month: 12,
+                                      day: 30,
+                                      hour: 15,
+                                      minute: 49,
+                                      second: 11,
+                                      nanosecond: 22)
         let format: DateFormat = [
             // year4DigitsWeekBased
             "YYYY", "-", .monthShort, "-", .dayOfMonth2Digits, " ", .time12hAndMinutes
@@ -34,13 +33,13 @@ final class DateComponentTests: DateTestCase {
     func testEachCase() {
         dateProvider.stub(.timeZone).andReturn(TimeZone.testMake(addHours: 2))
 
-        let date = Date.testMake(year: 2019,
-                                 month: 12,
-                                 day: 1,
-                                 hour: 15,
-                                 minute: 49,
-                                 second: 11,
-                                 nanosecond: 22)
+        let date = Date.spry.testMake(year: 2019,
+                                      month: 12,
+                                      day: 1,
+                                      hour: 15,
+                                      minute: 49,
+                                      second: 11,
+                                      nanosecond: 22)
         let s = DateComponent.t("<=**=>")
         let config: [(component: DateComponent, expected: String)] = [
             (.year4Digits, "2019"),

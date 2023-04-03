@@ -3,7 +3,7 @@ import NObservable
 import NSpry
 import UIKit
 
-@testable import NStorage
+import NStorage
 
 final class FakeStorage<Value>: Storage, Spryable {
     enum ClassFunction: String, StringRepresentable {

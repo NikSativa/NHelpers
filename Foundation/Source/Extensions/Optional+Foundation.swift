@@ -13,6 +13,18 @@ public extension Optional {
             return t
         }
     }
+
+    func unwrapOrEmpty<Element>() -> [Element] where Wrapped == [Element] {
+        return self ?? []
+    }
+
+    func unwrapOrEmpty<Key, Value>() -> [Key: Value] where Wrapped == [Key: Value] {
+        return self ?? [:]
+    }
+
+    func or(_ other: Wrapped) -> Wrapped {
+        return self ?? other
+    }
 }
 
 public extension Optional where Wrapped: Collection {

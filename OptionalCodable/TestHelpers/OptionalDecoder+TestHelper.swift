@@ -1,9 +1,8 @@
+import NOptionalCodable
 import NSpry
 
-@testable import NOptionalCodable
-
 extension OptionalDecoder: SpryEquatable {
-    static func testMake(value: A? = nil) -> Self {
+    public static func testMake(value: A? = nil) -> Self {
         return .init(value)
     }
 }

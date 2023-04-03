@@ -1,6 +1,6 @@
 import Foundation
 
-public struct OptionalCodableDictionary<K: Codable & Hashable, V: OptionalCodable> {
+public struct OptionalCodableDictionary<K: Codable & Hashable, V: Codable> {
     public let values: [K: V]
 
     public init(_ values: [K: V]) {
@@ -8,9 +8,9 @@ public struct OptionalCodableDictionary<K: Codable & Hashable, V: OptionalCodabl
     }
 }
 
-// MARK: - OptionalCodable
+// MARK: - Codable
 
-extension OptionalCodableDictionary: OptionalCodable {
+extension OptionalCodableDictionary: Codable {
     public init(from decoder: Decoder) throws {
         let container = try? decoder.singleValueContainer().decode([K: OptionalDecoder<V>].self)
         self.values = (container ?? [:]).compactMapValues(\.value)
@@ -21,3 +21,5 @@ extension OptionalCodableDictionary: OptionalCodable {
         try container.encode(values)
     }
 }
+
+extension OptionalCodableDictionary: Equatable where V: Equatable {}

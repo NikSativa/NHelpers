@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-@testable import NObservable
+import NObservable
 
 final class ObservableTests: XCTestCase {
     let subject: Observable<FakeState> = .init(wrappedValue: .init(counter: -1, toggle: false))

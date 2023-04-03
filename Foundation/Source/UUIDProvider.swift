@@ -5,7 +5,7 @@ public protocol UUIDProviding {
     func generateNew(andUpdateCache save: Bool) -> String
 }
 
-extension UUIDProviding {
+public extension UUIDProviding {
     func generateNew(andUpdateCache save: Bool = false) -> String {
         generateNew(andUpdateCache: save)
     }

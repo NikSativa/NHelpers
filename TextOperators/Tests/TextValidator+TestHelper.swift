@@ -1,9 +1,8 @@
 import Foundation
-import Nimble
 import NSpry
 
-@testable import NFoundationTestHelpers
-@testable import NTextOperators
+import NFoundationTestHelpers
+import NTextOperators
 
 // MARK: - TextValidator + SpryEquatable
 
@@ -13,12 +12,12 @@ extension TextValidator: SpryEquatable {
     }
 }
 
-// MARK: - TextValidator + TestOutputStringConvertible
+// MARK: - TextValidator + FriendlyStringConvertible
 
-extension TextValidator: TestOutputStringConvertible {
-    public var testDescription: String {
-        let propertyReflector = PropertyReflector(self)
-        let formatters: [TextFormatable] = propertyReflector.property(named: "validators") ?? []
+extension TextValidator: FriendlyStringConvertible {
+    public var friendlyDescription: String {
+        let propertyReflector = PropertyReflector.scan(self)
+        let formatters: [TextValidatable] = propertyReflector.property(named: "validators") ?? []
         return "TextValidator: " + formatters.compactMap { $0.uniqueID.components(separatedBy: ".").last }.joined(separator: ", ")
     }
 }
