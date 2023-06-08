@@ -30,7 +30,7 @@ let package = Package(
         .library(name: "DateTestHelper", targets: ["DateTestHelper"])
     ],
     dependencies: [
-        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.0.1"))
+        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.0.3"))
     ],
     targets: [
         // MARK: NFoundation

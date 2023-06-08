@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NikSativa/NSpry.git",
       "state" : {
-        "revision" : "b06e99e820901e7b623db73399151759b2bd1e1d",
-        "version" : "2.0.1"
+        "revision" : "ed86f9ccf17a369ad88d925144e5e7019cd8fb3e",
+        "version" : "2.0.3"
       }
     }
   ],

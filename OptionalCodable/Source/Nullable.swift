@@ -9,6 +9,8 @@ public struct Nullable<T> {
     }
 }
 
+// MARK: - Encodable
+
 extension Nullable: Encodable where T: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -20,6 +22,8 @@ extension Nullable: Encodable where T: Encodable {
         }
     }
 }
+
+// MARK: - Decodable
 
 extension Nullable: Decodable where T: Decodable {
     public init(from decoder: Decoder) throws {
