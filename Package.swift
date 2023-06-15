@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.8
 // swiftformat:disable all
 import PackageDescription
 
@@ -6,31 +6,31 @@ let package = Package(
     name: "NHelpers",
     platforms: [
         .iOS(.v13),
-        .macOS(.v10_15)
+        .macOS(.v11)
     ],
     products: [
         .library(name: "NFoundation", targets: ["NFoundation"]),
         .library(name: "NFoundationTestHelpers", targets: ["NFoundationTestHelpers"]),
 
-            .library(name: "NObservable", targets: ["NObservable"]),
+        .library(name: "NObservable", targets: ["NObservable"]),
 
-            .library(name: "NOptionalCodable", targets: ["NOptionalCodable"]),
+        .library(name: "NOptionalCodable", targets: ["NOptionalCodable"]),
         .library(name: "NOptionalCodableTestHelpers", targets: ["NOptionalCodableTestHelpers"]),
 
-            .library(name: "NStorage", targets: ["NStorage"]),
+        .library(name: "NStorage", targets: ["NStorage"]),
         .library(name: "NStorageTestHelpers", targets: ["NStorageTestHelpers"]),
 
-            .library(name: "NTextOperators", targets: ["NTextOperators"]),
+        .library(name: "NTextOperators", targets: ["NTextOperators"]),
         //        .library(name: "NTextOperatorsTestHelpers", targets: ["NTextOperatorsTestHelpers"]),
 
-            .library(name: "NUIKit", targets: ["NUIKit"]),
+        .library(name: "NUIKit", targets: ["NUIKit"]),
         .library(name: "NUIKitTestHelpers", targets: ["NUIKitTestHelpers"]),
 
-            .library(name: "DateHelper", targets: ["DateHelper"]),
+        .library(name: "DateHelper", targets: ["DateHelper"]),
         .library(name: "DateTestHelper", targets: ["DateTestHelper"])
     ],
     dependencies: [
-        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.0.3"))
+        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.1.1"))
     ],
     targets: [
         // MARK: NFoundation
