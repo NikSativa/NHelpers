@@ -2,7 +2,7 @@ import Foundation
 import NSpry
 import UIKit
 
-import NStorage
+@testable import NStorage
 
 final class FakeKeychain: Keychain, Spryable {
     enum ClassFunction: String, StringRepresentable {
