@@ -1,14 +1,20 @@
 import UIKit
 
 public extension UIScrollView {
-    func reachedRight() -> Bool {
-        // magic number: additional space
-        return contentOffset.x + bounds.width >= contentSize.width - 4.0 - contentInset.right
+    func reachedRight(additionalSpace magicNumber: CGFloat = 4) -> Bool {
+        guard contentSize.width >= bounds.width else {
+            return false
+        }
+
+        return contentOffset.x + bounds.width >= contentSize.width - magicNumber - contentInset.right
     }
 
-    func reachedBottom() -> Bool {
-        // magic number: additional space
-        return contentOffset.y + bounds.height >= contentSize.height - 4.0 - contentInset.bottom
+    func reachedBottom(additionalSpace magicNumber: CGFloat = 4) -> Bool {
+        guard contentSize.height >= bounds.height else {
+            return false
+        }
+
+        return contentOffset.y + bounds.height >= contentSize.height - magicNumber - contentInset.bottom
     }
 
     func scrollToView(view: UIView,
