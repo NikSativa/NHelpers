@@ -1,21 +1,10 @@
 import UIKit
 
 public extension UIColor {
-    enum Style: Equatable, Comparable {
+    /// compress 4 cases to 2
+    enum Style: Equatable {
         case light
         case dark
-
-        public static func <(lhs: Style, rhs: Style) -> Bool {
-            switch (lhs, rhs) {
-            case (.dark, .dark),
-                 (.light, .light):
-                return false
-            case (.light, .dark):
-                return true
-            case (.dark, .light):
-                return false
-            }
-        }
     }
 
     convenience init(red: Int, green: Int, blue: Int, alpha: CGFloat = 1) {
@@ -43,8 +32,8 @@ public extension UIColor {
                   alpha: CGFloat(Int(hex & 0x000000FF) >> 0) / 255)
     }
 
-    static func colorWith<T: UIColor>(dynamicProvider provider: @escaping (Style) -> T) -> T {
-        return T(dynamicProvider: { traits in
+    static func colorWith(dynamicProvider provider: @escaping (Style) -> UIColor) -> UIColor {
+        return .init(dynamicProvider: { traits in
             switch traits.userInterfaceStyle {
             case .dark:
                 return provider(.dark)
@@ -53,6 +42,26 @@ public extension UIColor {
                 return provider(.light)
             @unknown default:
                 return provider(.light)
+            }
+        })
+    }
+
+    static func colorWith(light: UInt,
+                          dark: UInt? = nil,
+                          hexWithAlpha: Bool = false,
+                          alpha: CGFloat = 1.0) -> UIColor {
+        return colorWith(dynamicProvider: { style in
+            switch (hexWithAlpha, style) {
+            case (true, .light):
+                return .init(hexWithAlpha: light)
+            case (false, .light):
+                return .init(hex: light, alpha: alpha)
+            case (true, .dark):
+                let hex = dark ?? light
+                return .init(hexWithAlpha: hex)
+            case (false, .dark):
+                let hex = dark ?? light
+                return .init(hex: hex, alpha: alpha)
             }
         })
     }
