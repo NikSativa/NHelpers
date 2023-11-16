@@ -1,5 +1,5 @@
 import Foundation
-import NObservable
+import NValueEventier
 
 public struct KeychainConfiguration: Equatable {
     public let service: String
@@ -36,7 +36,7 @@ public struct KeychainConfiguration: Equatable {
 
 final class KeychainStorage<Value>: Storage
 where Value: Equatable & Codable & ExpressibleByNilLiteral {
-    private(set) var eventier: Observable<Value>
+    private(set) var eventier: ValueEventier<Value>
 
     private let key: String
     private let keychain: Keychain

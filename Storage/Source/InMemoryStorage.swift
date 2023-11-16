@@ -1,8 +1,8 @@
 import Foundation
-import NObservable
+import NValueEventier
 
 final class InMemoryStorage<Output>: Storage {
-    private(set) var eventier: Observable<Output>
+    private(set) var eventier: ValueEventier<Output>
     private(set) var value: Output
 
     init(value: Output) {

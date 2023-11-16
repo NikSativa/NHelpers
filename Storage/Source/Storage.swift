@@ -1,10 +1,10 @@
 import Foundation
-import NObservable
+import NValueEventier
 
 public protocol Storage: AnyObject {
     associatedtype Value
 
-    var eventier: Observable<Value> { get }
+    var eventier: ValueEventier<Value> { get }
 
     func get() -> Value
     func set(_ newValue: Value)

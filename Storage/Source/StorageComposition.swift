@@ -1,5 +1,5 @@
 import Foundation
-import NObservable
+import NValueEventier
 
 public func + <S1: Storage, S2: Storage>(lhs: S1, rhs: S2) -> AnyStorage<S1.Value>
 where S1.Value == S2.Value, S1.Value: ExpressibleByNilLiteral & Equatable {
@@ -11,7 +11,7 @@ public func zip<Value: ExpressibleByNilLiteral & Equatable>(_ storages: AnyStora
 }
 
 final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Storage {
-    private(set) var eventier: Observable<Value>
+    private(set) var eventier: ValueEventier<Value>
     fileprivate let storages: [AnyStorage<Value>]
     private var observers: [AnyCancellable] = []
     private var isSyncing: Bool = false

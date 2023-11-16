@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "NFoundation", targets: ["NFoundation"]),
         .library(name: "NFoundationTestHelpers", targets: ["NFoundationTestHelpers"]),
 
-        .library(name: "NObservable", targets: ["NObservable"]),
+        .library(name: "NValueEventier", targets: ["NValueEventier"]),
 
         .library(name: "NOptionalCodable", targets: ["NOptionalCodable"]),
         .library(name: "NOptionalCodableTestHelpers", targets: ["NOptionalCodableTestHelpers"]),
@@ -52,16 +52,16 @@ let package = Package(
                     ],
                     path: "Foundation/Tests"),
 
-        // MARK: NObservable
-        .target(name: "NObservable",
+        // MARK: NValueEventier
+        .target(name: "NValueEventier",
                 dependencies: [
                 ],
-                path: "Observable/Source"),
-        .testTarget(name: "NObservableTests",
+                path: "ValueEventier/Source"),
+        .testTarget(name: "NValueEventierTests",
                     dependencies: [
-                        "NObservable"
+                        "NValueEventier"
                     ],
-                    path: "Observable/Tests"),
+                    path: "ValueEventier/Tests"),
 
         // MARK: NOptionalCodable
         .target(name: "NOptionalCodable",
@@ -86,14 +86,14 @@ let package = Package(
         .target(name: "NStorage",
                 dependencies: [
                     "NFoundation",
-                    "NObservable"
+                    "NValueEventier"
                 ],
                 path: "Storage/Source"),
         .target(name: "NStorageTestHelpers",
                 dependencies: [
                     "NStorage",
                     "NSpry",
-                    "NObservable"
+                    "NValueEventier"
                 ],
                 path: "Storage/TestHelpers"),
         .testTarget(name: "NStorageTests",

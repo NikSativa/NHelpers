@@ -1,9 +1,9 @@
 import Foundation
-import NObservable
+import NValueEventier
 
 final class FileStorage<Value>: Storage
 where Value: ExpressibleByNilLiteral & Codable {
-    private(set) var eventier: Observable<Value>
+    private(set) var eventier: ValueEventier<Value>
 
     private let fileName: String
     private let filePath: URL

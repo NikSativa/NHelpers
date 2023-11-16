@@ -1,6 +1,6 @@
 import Foundation
-import NObservable
 import NSpry
+import NValueEventier
 import UIKit
 
 @testable import NStorage
@@ -17,7 +17,7 @@ final class FakeStorage<Value>: Storage, Spryable {
         case sink = "sink(receiveValue:)"
     }
 
-    var eventier: Observable<Value> {
+    var eventier: ValueEventier<Value> {
         return spryify()
     }
 

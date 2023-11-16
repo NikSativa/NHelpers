@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 @propertyWrapper
-public final class Observable<Output>: Combine.Publisher {
+public final class ValueEventier<Output>: Combine.Publisher {
     public typealias Failure = Never
 
     private var observers: Set<AnyCancellable> = []
@@ -41,9 +41,9 @@ public final class Observable<Output>: Combine.Publisher {
         subject.receive(subscriber: subscriber)
     }
 
-    public func observe<New>(keyPath: WritableKeyPath<Output, New>) -> Observable<New> {
+    public func observe<New>(keyPath: WritableKeyPath<Output, New>) -> ValueEventier<New> {
         let newValue = wrappedValue[keyPath: keyPath]
-        let new = Observable<New>(wrappedValue: newValue, syncOnMainThread: syncOnMainThread)
+        let new = ValueEventier<New>(wrappedValue: newValue, syncOnMainThread: syncOnMainThread)
 
         map(keyPath)
             .dropFirst()
@@ -64,19 +64,19 @@ public final class Observable<Output>: Combine.Publisher {
     }
 }
 
-public extension Observable where Output: ExpressibleByNilLiteral {
+public extension ValueEventier where Output: ExpressibleByNilLiteral {
     convenience init() {
         self.init(wrappedValue: nil)
     }
 }
 
-public extension Observable where Output: ExpressibleByArrayLiteral {
+public extension ValueEventier where Output: ExpressibleByArrayLiteral {
     convenience init() {
         self.init(wrappedValue: [])
     }
 }
 
-public extension Observable where Output: ExpressibleByDictionaryLiteral {
+public extension ValueEventier where Output: ExpressibleByDictionaryLiteral {
     convenience init() {
         self.init(wrappedValue: [:])
     }

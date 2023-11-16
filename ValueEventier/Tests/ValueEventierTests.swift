@@ -1,10 +1,9 @@
 import Foundation
+import NValueEventier
 import XCTest
 
-import NObservable
-
-final class ObservableTests: XCTestCase {
-    let subject: Observable<FakeState> = .init(wrappedValue: .init(counter: -1, toggle: false))
+final class ValueEventierTests: XCTestCase {
+    let subject: ValueEventier<FakeState> = .init(wrappedValue: .init(counter: -1, toggle: false))
     var observers: Set<AnyCancellable> = []
     var rootStates: [FakeState] = []
 
@@ -74,9 +73,9 @@ final class ObservableTests: XCTestCase {
     }
 }
 
-// MARK: - ObservableTests.FakeState
+// MARK: - ValueEventierTests.FakeState
 
-extension ObservableTests {
+extension ValueEventierTests {
     struct FakeState: Equatable {
         var counter: Int
         var toggle: Bool

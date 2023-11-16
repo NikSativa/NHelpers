@@ -1,9 +1,9 @@
 import Foundation
-import NObservable
+import NValueEventier
 
 final class UserDefaultsStorage<Value>: Storage
 where Value: ExpressibleByNilLiteral & Codable {
-    private(set) var eventier: Observable<Value>
+    private(set) var eventier: ValueEventier<Value>
 
     private let defaults: UserDefaults
     private let key: String
