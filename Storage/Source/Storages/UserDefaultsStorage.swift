@@ -1,25 +1,30 @@
 import Foundation
 import NValueEventier
 
-final class UserDefaultsStorage<Value>: Storage
+public final class UserDefaultsStorage<Value>: Storage
 where Value: ExpressibleByNilLiteral & Codable {
-    private(set) var eventier: ValueEventier<Value>
+    public private(set) lazy var eventier: ValueEventier<Value> = .init(wrappedValue: get())
 
     private let defaults: UserDefaults
     private let key: String
     private lazy var decoder: JSONDecoder = .init()
     private lazy var encoder: JSONEncoder = .init()
 
-    init(key: String,
-         defaults: UserDefaults) {
-        self.key = key
-        self.defaults = defaults
-
-        self.eventier = .init(wrappedValue: nil)
-        eventier.wrappedValue = get()
+    public var value: Value {
+        get {
+            return get()
+        }
+        set {
+            set(newValue)
+        }
     }
 
-    func get() -> Value {
+    public init(key: String, defaults: UserDefaults = .standard) {
+        self.key = key
+        self.defaults = defaults
+    }
+
+    private func get() -> Value {
         if let data = defaults.data(forKey: key),
            let result = try? decoder.decode(Value.self, from: data) {
             return result
@@ -27,7 +32,7 @@ where Value: ExpressibleByNilLiteral & Codable {
         return nil
     }
 
-    func set(_ newValue: Value) {
+    private func set(_ newValue: Value) {
         let result: Value
         if let data = try? encoder.encode(newValue) {
             defaults.set(data, forKey: key)
@@ -38,6 +43,7 @@ where Value: ExpressibleByNilLiteral & Codable {
         }
 
         defaults.synchronize()
+        objectWillChange.send()
         eventier.wrappedValue = result
     }
 }

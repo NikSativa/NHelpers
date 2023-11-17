@@ -1,23 +1,32 @@
 import Foundation
 import NValueEventier
 
-public func + <S1: Storage, S2: Storage>(lhs: S1, rhs: S2) -> AnyStorage<S1.Value>
-where S1.Value == S2.Value, S1.Value: ExpressibleByNilLiteral & Equatable {
-    return StorageComposition(storages: [lhs.toAny(), rhs.toAny()]).toAny()
-}
-
-public func zip<Value: ExpressibleByNilLiteral & Equatable>(_ storages: AnyStorage<Value>...) -> AnyStorage<Value> {
-    return StorageComposition(storages: storages).toAny()
-}
-
-final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Storage {
+internal final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Storage {
     private(set) var eventier: ValueEventier<Value>
-    fileprivate let storages: [AnyStorage<Value>]
+    private let storages: [AnyStorage<Value>]
     private var observers: [AnyCancellable] = []
     private var isSyncing: Bool = false
 
+    var value: Value {
+        get {
+            return get()
+        }
+        set {
+            set(newValue)
+        }
+    }
+
+    @available(iOS 16.0.0, *)
+    convenience init(storages: [any Storage<Value>]) {
+        let anyStorages = storages.map {
+            return $0.toAny()
+        }
+        self.init(storages: anyStorages)
+    }
+
     init(storages: [AnyStorage<Value>]) {
         assert(!storages.isEmpty, "we hit a snag! maybe in runtime some Storages was filtered")
+
         if storages.isEmpty {
             // maybe in runtime Storages was filtered due some lack options
             // to make shure that the storage will work at any case, we are adding default InMemory storage
@@ -45,7 +54,7 @@ final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Stor
                 self.isSyncing = true
                 for storage in self.storages {
                     if actaul !== storage {
-                        storage.set(newValue)
+                        storage.value = newValue
                     }
                 }
                 self.isSyncing = false
@@ -53,7 +62,7 @@ final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Stor
         }
     }
 
-    func get() -> Value {
+    private func get() -> Value {
         let empty: Value = nil
         let found: (offset: Int, element: Value)? = storages.lazy
             .map(\.value)
@@ -71,10 +80,12 @@ final class StorageComposition<Value: ExpressibleByNilLiteral & Equatable>: Stor
         return found?.element ?? empty
     }
 
-    func set(_ newValue: Value) {
+    private func set(_ newValue: Value) {
         for storage in storages {
-            storage.set(newValue)
+            storage.value = newValue
         }
+
+        objectWillChange.send()
         eventier.wrappedValue = newValue
     }
 }

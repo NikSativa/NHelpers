@@ -6,21 +6,41 @@ public final class AnyStorage<Value>: Storage {
     private let _set: (Value) -> Void
     private let _publisher: () -> ValueEventier<Value>
 
+    public var value: Value {
+        get {
+            return _get()
+        }
+        set {
+            objectWillChange.send()
+            _set(newValue)
+        }
+    }
+
     public init<U: Storage>(_ base: U) where U.Value == Value {
-        self._get = base.get
-        self._set = base.set
-        self._publisher = { base.eventier }
+        self._get = {
+            return base.value
+        }
+
+        self._set = {
+            base.value = $0
+        }
+
+        self._publisher = {
+            return base.eventier
+        }
     }
 
     public var eventier: ValueEventier<Value> {
         return _publisher()
     }
+}
 
-    public func get() -> Value {
-        return _get()
-    }
+public extension Storage {
+    func toAny() -> AnyStorage<Value> {
+        if let self = self as? AnyStorage<Value> {
+            return self
+        }
 
-    public func set(_ newValue: Value) {
-        _set(newValue)
+        return AnyStorage(self)
     }
 }

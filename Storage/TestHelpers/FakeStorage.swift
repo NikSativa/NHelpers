@@ -1,35 +1,43 @@
 import Foundation
 import NSpry
+import NStorage
 import NValueEventier
 import UIKit
 
-@testable import NStorage
-
-final class FakeStorage<Value>: Storage, Spryable {
-    enum ClassFunction: String, StringRepresentable {
+public final class FakeStorage<Value>: Storage, Spryable {
+    public enum ClassFunction: String, StringRepresentable {
         case empty
     }
 
-    enum Function: String, StringRepresentable {
+    public enum Function: String, StringRepresentable {
         case publisher
         case get = "get()"
         case set = "set(_:)"
         case sink = "sink(receiveValue:)"
     }
 
-    var eventier: ValueEventier<Value> {
+    public var eventier: ValueEventier<Value> {
         return spryify()
     }
 
-    func get() -> Value {
+    public var value: Value {
+        get {
+            return get()
+        }
+        set {
+            set(newValue)
+        }
+    }
+
+    private func get() -> Value {
         return spryify()
     }
 
-    func set(_ newValue: Value) {
+    private func set(_ newValue: Value) {
         return spryify(arguments: newValue)
     }
 
-    func sink(receiveValue: @escaping (Value) -> Void) -> AnyCancellable {
+    public func sink(receiveValue: @escaping (Value) -> Void) -> AnyCancellable {
         return spryify(arguments: receiveValue)
     }
 }

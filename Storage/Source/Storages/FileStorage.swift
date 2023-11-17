@@ -1,9 +1,9 @@
 import Foundation
 import NValueEventier
 
-final class FileStorage<Value>: Storage
+public final class FileStorage<Value>: Storage
 where Value: ExpressibleByNilLiteral & Codable {
-    private(set) var eventier: ValueEventier<Value>
+    public private(set) lazy var eventier: ValueEventier<Value> = .init(wrappedValue: get())
 
     private let fileName: String
     private let filePath: URL
@@ -12,8 +12,17 @@ where Value: ExpressibleByNilLiteral & Codable {
     private lazy var decoder: JSONDecoder = .init()
     private lazy var encoder: JSONEncoder = .init()
 
-    init(fileName: String,
-         fileManager: FileManager = .default) {
+    public var value: Value {
+        get {
+            return get()
+        }
+        set {
+            set(newValue)
+        }
+    }
+
+    public init(fileName: String,
+                fileManager: FileManager = .default) {
         self.fileName = fileName
         self.fileManager = fileManager
 
@@ -32,12 +41,9 @@ where Value: ExpressibleByNilLiteral & Codable {
         }
 
         self.filePath = folderUrl.appendingPathComponent(fileName).appendingPathExtension("stg")
-
-        self.eventier = .init(wrappedValue: nil)
-        eventier.wrappedValue = get()
     }
 
-    func get() -> Value {
+    private func get() -> Value {
         do {
             guard fileManager.fileExists(atPath: filePath.path) else {
                 return nil
@@ -52,7 +58,7 @@ where Value: ExpressibleByNilLiteral & Codable {
         }
     }
 
-    func set(_ newValue: Value) {
+    private func set(_ newValue: Value) {
         do {
             if fileManager.fileExists(atPath: filePath.path) {
                 try fileManager.removeItem(at: filePath)
@@ -61,6 +67,7 @@ where Value: ExpressibleByNilLiteral & Codable {
             let data = try encoder.encode(newValue)
             try data.write(to: filePath, options: [.atomic])
 
+            objectWillChange.send()
             eventier.wrappedValue = newValue
         } catch {
             assertionFailure("\(error)")

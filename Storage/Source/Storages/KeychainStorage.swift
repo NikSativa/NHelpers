@@ -2,9 +2,13 @@ import Foundation
 import NValueEventier
 
 public struct KeychainConfiguration: Equatable {
+    /// unique id for app. in common case is bundle id.
     public let service: String
+    /// unique id for filter app scope. in common case is nil, but if service is not unique between apps, then group can help to filter values only for corresponding group.
     public let accessGroup: String?
+    /// iCloud sync
     public let synchronizable: Bool
+
     public let decoder: JSONDecoder
     public let encoder: JSONEncoder
 
@@ -34,36 +38,51 @@ public struct KeychainConfiguration: Equatable {
     }
 }
 
-final class KeychainStorage<Value>: Storage
+public final class KeychainStorage<Value>: Storage
 where Value: Equatable & Codable & ExpressibleByNilLiteral {
-    private(set) var eventier: ValueEventier<Value>
+    public private(set) lazy var eventier: ValueEventier<Value> = .init(wrappedValue: get())
 
     private let key: String
     private let keychain: Keychain
 
-    init(key: String,
-         keychain: Keychain) {
-        self.key = key
-        self.keychain = keychain
-        self.eventier = .init(wrappedValue: nil)
-        eventier.wrappedValue = get()
+    public var value: Value {
+        get {
+            return get()
+        }
+        set {
+            set(newValue)
+        }
     }
 
-    public func get() -> Value {
+    public init(key: String, keychain: Keychain) {
+        self.key = key
+        self.keychain = keychain
+    }
+
+    public convenience init(key: String, configuration: KeychainConfiguration) {
+        self.init(key: key, keychain: .init(configuration: configuration))
+    }
+
+    private func get() -> Value {
         if let result = try? keychain.read(Value.self, for: key) {
             return result
         }
         return nil
     }
 
-    public func set(_ newValue: Value) {
+    private func set(_ newValue: Value) {
         let empty: Value = nil
-        if newValue != empty {
-            try? keychain.write(newValue, for: key)
-        } else {
-            try? keychain.clear(for: key)
-        }
 
-        eventier.wrappedValue = newValue
+        do {
+            if newValue != empty {
+                try keychain.write(newValue, for: key)
+            } else {
+                try keychain.clear(for: key)
+            }
+            objectWillChange.send()
+            eventier.wrappedValue = newValue
+        } catch {
+            assertionFailure("\(error)")
+        }
     }
 }

@@ -1,36 +1,53 @@
 import Foundation
 import NValueEventier
 
-public protocol Storage: AnyObject {
+public protocol Storage<Value>: AnyObject, ObservableObject {
     associatedtype Value
 
     var eventier: ValueEventier<Value> { get }
-
-    func get() -> Value
-    func set(_ newValue: Value)
+    var value: Value { get set }
 
     func sink(receiveValue: @escaping (Value) -> Void) -> AnyCancellable
 }
 
 public extension Storage {
-    var value: Value {
-        get {
-            get()
-        }
-        set {
-            set(newValue)
-        }
-    }
-
     func sink(receiveValue: @escaping (Value) -> Void) -> AnyCancellable {
         return eventier.sink(receiveValue: receiveValue)
     }
 
-    func toAny() -> AnyStorage<Value> {
-        if let self = self as? AnyStorage<Value> {
-            return self
-        }
-
-        return AnyStorage(self)
+    func combine<S: Storage>(_ a: S) -> some Storage<Value>
+    where S.Value == Value, Value: ExpressibleByNilLiteral & Equatable {
+        return StorageComposition(storages: [toAny(), a.toAny()])
     }
+
+    func combine<S1: Storage, S2: Storage>(_ s1: S1, s2: S2) -> some Storage<Value>
+    where S1.Value == Value, S2.Value == Value, Value: ExpressibleByNilLiteral & Equatable {
+        return StorageComposition(storages: [toAny(), s1.toAny(), s2.toAny()])
+    }
+
+    func combine<S1: Storage, S2: Storage, S3: Storage>(_ s1: S1, s2: S2, s3: S3) -> some Storage<Value>
+    where S1.Value == Value, S2.Value == Value, S3.Value == Value, Value: ExpressibleByNilLiteral & Equatable {
+        return StorageComposition(storages: [toAny(), s1.toAny(), s2.toAny(), s3.toAny()])
+    }
+
+    func combine<S1: Storage, S2: Storage, S3: Storage, S4: Storage>(_ s1: S1, s2: S2, s3: S3, s4: S4) -> some Storage<Value>
+    where S1.Value == Value, S2.Value == Value, S3.Value == Value, S4.Value == Value, Value: ExpressibleByNilLiteral & Equatable {
+        return StorageComposition(storages: [toAny(), s1.toAny(), s2.toAny(), s3.toAny(), s4.toAny()])
+    }
+}
+
+@available(macOS 13, *)
+@available(iOS 16, *)
+@inline(__always)
+public func zip<Value>(storages: [any Storage<Value>]) -> some Storage<Value>
+where Value: ExpressibleByNilLiteral & Equatable {
+    return StorageComposition(storages: storages).toAny()
+}
+
+@available(macOS, deprecated: 13)
+@available(iOS, deprecated: 16)
+@inline(__always)
+public func zip<Value>(storages: [AnyStorage<Value>]) -> some Storage<Value>
+where Value: ExpressibleByNilLiteral & Equatable {
+    return StorageComposition(storages: storages).toAny()
 }
