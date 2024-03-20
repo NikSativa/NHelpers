@@ -1,4 +1,4 @@
-// swift-tools-version:5.8
+// swift-tools-version:5.9
 // swiftformat:disable all
 import PackageDescription
 
@@ -30,20 +30,26 @@ let package = Package(
         .library(name: "DateTestHelper", targets: ["DateTestHelper"])
     ],
     dependencies: [
-        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.1.2"))
+        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "2.1.4"))
     ],
     targets: [
         // MARK: NFoundation
         .target(name: "NFoundation",
                 dependencies: [
                 ],
-                path: "Foundation/Source"),
+                path: "Foundation/Source",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .target(name: "NFoundationTestHelpers",
                 dependencies: [
                     "NFoundation",
                     "NSpry"
                 ],
-                path: "Foundation/TestHelpers"),
+                path: "Foundation/TestHelpers",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .testTarget(name: "NFoundationTests",
                     dependencies: [
                         "NSpry",
@@ -56,7 +62,10 @@ let package = Package(
         .target(name: "NValueEventier",
                 dependencies: [
                 ],
-                path: "ValueEventier/Source"),
+                path: "ValueEventier/Source",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .testTarget(name: "NValueEventierTests",
                     dependencies: [
                         "NValueEventier"
@@ -67,13 +76,19 @@ let package = Package(
         .target(name: "NOptionalCodable",
                 dependencies: [
                 ],
-                path: "OptionalCodable/Source"),
+                path: "OptionalCodable/Source",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .target(name: "NOptionalCodableTestHelpers",
                 dependencies: [
                     "NOptionalCodable",
                     "NSpry"
                 ],
-                path: "OptionalCodable/TestHelpers"),
+                path: "OptionalCodable/TestHelpers",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .testTarget(name: "NOptionalCodableTests",
                     dependencies: [
                         "NSpry",
@@ -88,14 +103,20 @@ let package = Package(
                     "NFoundation",
                     "NValueEventier"
                 ],
-                path: "Storage/Source"),
+                path: "Storage/Source",
+                resources: [
+                    .copy("../PrivacyInfo.xcprivacy")
+                ]),
         .target(name: "NStorageTestHelpers",
                 dependencies: [
                     "NStorage",
                     "NSpry",
                     "NValueEventier"
                 ],
-                path: "Storage/TestHelpers"),
+                path: "Storage/TestHelpers",
+                resources: [
+                    .copy("../PrivacyInfo.xcprivacy")
+                ]),
         .testTarget(name: "NStorageTests",
                     dependencies: [
                         "NSpry",
@@ -108,33 +129,45 @@ let package = Package(
         .target(name: "NTextOperators",
                 dependencies: [
                 ],
-                path: "TextOperators/Source"),
-        //        .target(name: "NTextOperatorsTestHelpers",
-        //                dependencies: [
-        //                    "NSpry"
-        //                ],
-        //                path: "TextOperators/TestHelpers"),
-            .testTarget(name: "NTextOperatorsTests",
-                        dependencies: [
-                            "NSpry",
-                            "NTextOperators",
-                            //                        "NTextOperatorsTestHelpers"
-                            "NFoundationTestHelpers"
-                        ],
-                        path: "TextOperators/Tests"),
+                path: "TextOperators/Source",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
+//                .target(name: "NTextOperatorsTestHelpers",
+//                        dependencies: [
+//                            "NSpry"
+//                        ],
+//                        path: "TextOperators/TestHelpers",
+//                        resources: [
+//                            .copy("../../PrivacyInfo.xcprivacy")
+//                        ]),
+        .testTarget(name: "NTextOperatorsTests",
+                    dependencies: [
+                        "NSpry",
+                        "NTextOperators",
+                        //                        "NTextOperatorsTestHelpers"
+                        "NFoundationTestHelpers"
+                    ],
+                    path: "TextOperators/Tests"),
 
         // MARK: NUIKit
         .target(name: "NUIKit",
                 dependencies: [
                     "NFoundation"
                 ],
-                path: "UIKit/Source"),
+                path: "UIKit/Source",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .target(name: "NUIKitTestHelpers",
                 dependencies: [
                     "NUIKit",
                     "NSpry"
                 ],
-                path: "UIKit/TestHelpers"),
+                path: "UIKit/TestHelpers",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]),
         .testTarget(name: "NUIKitTests",
                     dependencies: [
                         "NSpry",
@@ -151,6 +184,9 @@ let package = Package(
                 exclude: [
                     "Tests",
                     "TestHelpers"
+                ],
+                resources: [
+                    .copy("../PrivacyInfo.xcprivacy")
                 ]
                ),
         .target(name: "DateTestHelper",
@@ -158,7 +194,10 @@ let package = Package(
                     "DateHelper",
                     "NSpry"
                 ],
-                path: "DateHelper/TestHelpers"
+                path: "DateHelper/TestHelpers",
+                resources: [
+                    .copy("../../PrivacyInfo.xcprivacy")
+                ]
                ),
         .testTarget(name: "DateHelperTests",
                     dependencies: [

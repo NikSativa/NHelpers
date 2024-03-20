@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
       "state" : {
-        "revision" : "a23ded2c91df9156628a6996ab4f347526f17b6b",
-        "version" : "2.1.2"
+        "revision" : "2ef56b2caf25f55fa7eef8784c30d5a767550f54",
+        "version" : "2.2.1"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NikSativa/NSpry.git",
       "state" : {
-        "revision" : "5d77fc191e140013a61476cbee66c031def9757f",
-        "version" : "2.1.2"
+        "revision" : "2bd07efd49af15a1afd1e44ea9212383c55d3a31",
+        "version" : "2.1.4"
       }
     }
   ],

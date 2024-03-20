@@ -14,7 +14,7 @@ extension TextValidator: SpryEquatable {
 
 // MARK: - TextValidator + FriendlyStringConvertible
 
-extension TextValidator: FriendlyStringConvertible {
+extension TextValidator: SpryFriendlyStringConvertible {
     public var friendlyDescription: String {
         let propertyReflector = PropertyReflector.scan(self)
         let formatters: [TextValidatable] = propertyReflector.property(named: "validators") ?? []
