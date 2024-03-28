@@ -5,31 +5,28 @@ import Foundation
 public final class ValueEventier<Output>: Combine.Publisher {
     public typealias Failure = Never
 
-    private var observers: Set<AnyCancellable> = []
-    private let syncOnMainThread: Bool
     private let subject: any Subject<Output, Failure>
+    private var observers: Set<AnyCancellable> = []
     private var isIgnoringNewValues: Bool = true
 
+    private var underlyingValue: Output
     public var wrappedValue: Output {
-        didSet {
+        get {
+            return underlyingValue
+        }
+        set {
+            underlyingValue = newValue
+
             guard isIgnoringNewValues else {
                 return
             }
-
-            if syncOnMainThread, !Thread.isMainThread {
-                DispatchQueue.main.sync {
-                    subject.send(wrappedValue)
-                }
-            } else {
-                subject.send(wrappedValue)
-            }
+            subject.send(newValue)
         }
     }
 
-    public required init(wrappedValue: Output, syncOnMainThread: Bool = false) {
+    public required init(wrappedValue: Output) {
         self.subject = CurrentValueSubject(wrappedValue)
-        self.wrappedValue = wrappedValue
-        self.syncOnMainThread = syncOnMainThread
+        self.underlyingValue = wrappedValue
     }
 
     public lazy var projectedValue: AnyPublisher<Output, Failure> = {
@@ -43,7 +40,7 @@ public final class ValueEventier<Output>: Combine.Publisher {
 
     public func observe<New>(keyPath: WritableKeyPath<Output, New>) -> ValueEventier<New> {
         let newValue = wrappedValue[keyPath: keyPath]
-        let new = ValueEventier<New>(wrappedValue: newValue, syncOnMainThread: syncOnMainThread)
+        let new = ValueEventier<New>(wrappedValue: newValue)
 
         map(keyPath)
             .dropFirst()

@@ -12,7 +12,7 @@ extension TextValidator: SpryEquatable {
     }
 }
 
-// MARK: - TextValidator + FriendlyStringConvertible
+// MARK: - TextValidator + SpryFriendlyStringConvertible
 
 extension TextValidator: SpryFriendlyStringConvertible {
     public var friendlyDescription: String {
